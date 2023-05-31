@@ -2,8 +2,10 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
+# load the vlr webpage content 
 source=requests.get('https://www.vlr.gg/event/stats/466/valorant-champions-tour-stage-3-masters-berlin').text
 
+#convert to beautiful soup
 soup = BeautifulSoup(source,'lxml')
 
 table = soup.find('table', {'class':'wf-table mod-stats mod-scroll'})
