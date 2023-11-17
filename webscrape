@@ -19,7 +19,8 @@ for i in table.find_all('th'):
 df = pd.DataFrame(columns=headers)
 
 #loop through all tr starting from the second one and find all data for each row. Data is 156 players/rows x 21 stats/columns
-#strip numbers for each column for each player
+#strip numbers for player and each column
+#length at 0, input row data at row 0 for first player and so on
 #length has 156 rows, looped through each row of table to add all 156 rows to the dataframe
 for row in table.find_all('tr')[1:]:
     data = row.find_all('td')
