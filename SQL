@@ -1,0 +1,59 @@
+CREATE TABLE playerteam (
+Player varchar(50) NOT NULL DEFAULT 0,
+playerid int (5),
+PRIMARY KEY (Player)
+);
+
+INSERT INTO playerteam (Player) SELECT Player FROM champions2023.stats;
+
+UPDATE playerteam INNER JOIN stats ON playerteam.Player = stats.Player
+SET playerteam.playerid = stats.ID
+WHERE playerteam.Player IS NOT NULL;
+
+
+
+CREATE TABLE team (
+teamname varchar(10) NOT NULL DEFAULT 0,
+playerid int (5) NOT NULL DEFAULT 0,
+PRIMARY KEY (playerid)
+);
+
+INSERT INTO team (teamname, playerid)
+VALUES 
+('EG',0), ('KRU',1), ('FNC',2), ('FNC',3), ('LOUD',4), ('FPX',5), ('LOUD',6), ('GIA',7), 
+('LOUD',8), ('FUT',9), ('NRG',10), ('NAVI',11), ('EG',12), ('PRX',13), ('NAVI',14), ('PRX',15), 
+('NRG', 16), ('T1',17), ('BLG',18), ('EDG',19), ('EG',20), ('FNC',21), ('DRX',22), ('EG',23), ('BLG',24), 
+('TL',25), ('GIA',26), ('NRG',27), ('GIA',28), ('KRU',29), ('LOUD',30), ('NAVI',31), ('FUT',32), ('LOUD',33), 
+('DRX',34), ('PRX',35), ('PRX',36), ('EDG',37), ('PRX',38), ('DRX',39), ('FNC',40),('TL',41), ('FUT',42), 
+('FNC',43), ('GIA',44), ('NRG',45), ('EDG',46), ('FUT',47), ('T1',48), ('DRX',49), ('T1',50), ('EDG',51), 
+('NAVI',52), ('EG',53), ('ZETA',54), ('FPX',55), ('NRG',56), ('BLG',57), ('BLG',58), ('EDG',59), ('FPX',60), 
+('PRX',61), ('GIA',62), ('FUT',63), ('T1',64), ('NAVI',65), ('KRU',66), ('BLG',67), ('TL',68), ('KRU',69), 
+('TL',70), ('FPX',71), ('KRU',72), ('TL',73), ('T1',74), ('FPX',75), ('ZETA',76), ('ZETA',77), ('ZETA',78),
+ ('ZETA',79)
+;
+
+
+
+ALTER TABLE playerteam
+DROP PRIMARY KEY;
+
+ALTER TABLE playerteam
+ADD PRIMARY KEY (playerid);
+
+SELECT * FROM champions2023.playerteam;
+
+SELECT * FROM champions2023.team;
+
+CREATE TABLE playerandteam
+AS
+SELECT playerteam.Player, team.teamname
+FROM playerteam	
+LEFT JOIN team
+ON playerteam.playerid=team.playerid;
+
+
+CREATE TABLE kast2023 AS
+SELECT stats.ID, stats.Player, ACS, KD, Kast, CLpercent, pt.teamname
+FROM stats
+RIGHT JOIN playerandteam AS pt
+ON stats.Player = pt.Player
